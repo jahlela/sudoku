@@ -1,11 +1,10 @@
-import { Cell } from "./pages/cell/page";
+import { Grid } from './components/grid/Grid';
+import styles from './page.module.scss';
 
 export default function Home() {
   return (
-    <div>
-      <Cell value={3} />
-      <Cell value={5} selected/>
-      <Cell value={6} />
-    </div>
+    <main className={styles.page}>
+      <Grid isComplete={false} />
+    </main>
   );
 }

@@ -1,0 +1,38 @@
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(2, 57, 56);;
+  color: teal;
+  
+  &:hover {
+    background-color: teal;
+    color: white;
+  }
+
+  &.top {
+    border-top-width: 4px;
+  }
+  &.bottom {
+    border-bottom-width: 4px;
+  }
+  &.left {
+    border-left-width: 4px;
+  }
+  &.right {
+    border-right-width: 4px;
+  }
+  &.removeLeft {
+    border-left: none;
+  }
+  &.removeTop {
+    border-top: none;
+  }
+
+
+
+  &.isComplete {
+    background-color: powderblue;
+  }
+
+}
