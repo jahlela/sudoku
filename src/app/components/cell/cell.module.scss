@@ -29,10 +29,14 @@
     border-top: none;
   }
 
+  &.selected {
+    background-color: lightblue;
+    color: teal;
 
-
-  &.isComplete {
-    background-color: powderblue;
+    &:hover {
+      background-color: lightblue;
+      color: darkblue;
+    }
   }
 
 }
