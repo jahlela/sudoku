@@ -9,11 +9,11 @@ export const Cell = ({ index, value, handleClick, isSelected = false }: Cell) =>
   const borderStyle = getBorderStyles(row, col);
   const selectedStyle = isSelected ? styles.selected : '';
   const cellStyle = `${styles.cell} ${borderStyle} ${selectedStyle}`;
-  
+
 
   return (
     <div
-      className={cellStyle} 
+      className={cellStyle}
       data-row={row}
       data-col={col}
       data-block={block}

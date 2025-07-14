@@ -1,3 +1,7 @@
+.wrapper {
+  display: flex;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(9, 3rem);
@@ -5,15 +9,18 @@
   gap: 0;
 }
 
-.overlay {
-  position: absolute;
-  inset: 0;
+.rowButtons {
+  margin-top: 3em;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 180, 0, 0.35);
-  font-size: 2rem;
-  color: #fff;
+  flex-direction: column;
+}
+
+.rowButton {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0.25rem;
+  color: black;
+  cursor: pointer;
 }
 
 .columnButton {
@@ -23,3 +30,4 @@
   color: black;
   cursor: pointer;
 }
+
