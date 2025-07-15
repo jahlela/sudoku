@@ -4,23 +4,45 @@ import { useState } from 'react';
 import { Cell } from '../cell';
 import styles from './grid.module.scss';
 
-const GRID_CELLS: number[] = [...Array(81)];
+type Cell = number;
+type Row = Cell[];
+type Col = Cell[];
+type Cells = Cell[];
+type Grid = Row[] | Col[];
+
+const GRID_CELLS: Grid = [...Array(81)];
 
 const getColumnCells = (col: number) => Array.from({ length: 9 }, (_, row) => row * 9 + col);
 const getRowCells = (row: number) => Array.from({ length: 9 }, (_, col) => row * 9 + col);
 
 export const Grid = () => {
-  const [selectedCells, setSelectedCells] = useState<number[]>([]);
+  const [selectedCells, setSelectedCells] = useState<Cells>([]);
+  const [cellValues, setCellValues] = useState<Grid>(GRID_CELLS);
+
+  const makeSelection = (
+    newCells: Cells,
+    isMergingSelection: boolean
+  ) => {
+    setSelectedCells((prev) =>
+      isMergingSelection
+        ? [...new Set([...prev, ...newCells])]
+        : newCells
+    );
+  };
 
   return (
     <div className={styles.wrapper}>
-      {/* buttons to select all cells in the row */}
+      {/* select all cells in a row */}
       <div className={styles.rowButtons}>
         {[...Array(9)].map((_, row) => (
           <button
             key={row}
             className={styles.rowButton}
-            onClick={() => setSelectedCells(getRowCells(row))}
+            onClick={(event) => {
+              const rowCells = getRowCells(row);
+              const isMerge = event.shiftKey;
+              makeSelection(rowCells, isMerge);
+            }}
           >
             {row + 1}
           </button>
@@ -28,15 +50,16 @@ export const Grid = () => {
       </div>
 
       <div className={styles.gridContainer}>
-        {/* buttons to select all cells in the column */}
+        {/* select all cells in a column */}
         <div className={styles.columnButtons}>
           {[...Array(9)].map((_, col) => (
             <button
               key={col}
               className={styles.columnButton}
-              onClick={() => {
+              onClick={(event) => {
                 const columnCells = getColumnCells(col);
-                setSelectedCells(columnCells);
+                const isMerge = event.shiftKey;
+                makeSelection(columnCells, isMerge);
               }}
             >
               {col + 1}
@@ -45,7 +68,7 @@ export const Grid = () => {
         </div>
 
         <div className={styles.grid}>
-          {GRID_CELLS.map((_, i) => {
+          {cellValues.map((_, i) => {
             const isSelected = selectedCells.includes(i);
             const handleClick = () => {
               if (isSelected) {
