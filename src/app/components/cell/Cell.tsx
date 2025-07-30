@@ -17,7 +17,7 @@ export const Cell = ({ index, value, handleClick, isSelected = false }: Cell) =>
       data-row={row}
       data-col={col}
       data-block={block}
-      onClick={handleClick}
+      onClick={(event) => handleClick(event)}
     >
       <h4>{value ?? ''}</h4>
     </div>

@@ -5,11 +5,11 @@
   border: 1px solid rgb(2, 57, 56);;
   color: teal;
   user-select: none;
+  cursor: pointer;
   
   &:hover {
     background-color: teal;
     color: white;
-    cursor: pointer;
   }
 
   &.top {
@@ -36,8 +36,8 @@
     color: teal;
 
     &:hover {
-      background-color: lightblue;
-      color: rgb(51, 77, 77);
+      background-color: teal;
+      color: white;
     }
   }
 }

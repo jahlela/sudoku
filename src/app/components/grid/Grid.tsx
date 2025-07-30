@@ -19,16 +19,24 @@ export const Grid = () => {
   const [selectedCells, setSelectedCells] = useState<Cells>([]);
   const [cellValues, setCellValues] = useState<Grid>(GRID_CELLS);
 
-  const makeSelection = (
+  const selectOrDeselect = (
     newCells: Cells,
     isMergingSelection: boolean
   ) => {
-    setSelectedCells((prev) =>
-      isMergingSelection
-        ? [...new Set([...prev, ...newCells])]
-        : newCells
-    );
+    setSelectedCells((previousCells) => {
+      if (isMergingSelection) {
+        const allSelected = newCells.every(cell => previousCells.includes(cell));
+
+        // Deselect if all selected. Otherwise merge selection
+        return allSelected
+          ? previousCells.filter(cell => !newCells.includes(cell))
+          : [...new Set([...previousCells, ...newCells])];
+      }
+
+      return newCells;
+    });
   };
+
 
   return (
     <div className={styles.wrapper}>
@@ -41,7 +49,7 @@ export const Grid = () => {
             onClick={(event) => {
               const rowCells = getRowCells(row);
               const isMerge = event.shiftKey;
-              makeSelection(rowCells, isMerge);
+              selectOrDeselect(rowCells, isMerge);
             }}
           >
             {row + 1}
@@ -59,7 +67,7 @@ export const Grid = () => {
               onClick={(event) => {
                 const columnCells = getColumnCells(col);
                 const isMerge = event.shiftKey;
-                makeSelection(columnCells, isMerge);
+                selectOrDeselect(columnCells, isMerge);
               }}
             >
               {col + 1}
@@ -70,12 +78,9 @@ export const Grid = () => {
         <div className={styles.grid}>
           {cellValues.map((_, i) => {
             const isSelected = selectedCells.includes(i);
-            const handleClick = () => {
-              if (isSelected) {
-                setSelectedCells(selectedCells.filter(cell => cell !== i));
-              } else {
-                setSelectedCells([...selectedCells, i]);
-              }
+            const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+              const isMerge = event.shiftKey;
+              selectOrDeselect([i], isMerge);
             };
 
             return (
